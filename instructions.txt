@@ -1,0 +1,567 @@
+Intro and Learn Git:
+
+	These projects all assume you have some basic programming knowledge. If you feel 
+	that you don't know what you need to know to complete a project, look it up. Python
+	has excellent documentation and a large user base. Someone has probably had your same 
+	problem and all you need to do is ask Google the right question to find it.
+
+	The format of these projects are a bunch of little tiny projects to help you understand 
+	some basic building blocks. Then two slightly larger file manipulation projects at the end.
+	If you want more after that let me know and I'll write up an extension to those 
+	file projects.
+
+	Project 1, Intro to Python:
+	
+	The goal of this project is to get you to understand one of the things that sets Python 
+	apart from a lot of other commonly used languages, and that is the interpreter or "shell".
+	Python doesn't want you to fail later on small things, it wants you to fail now on the 
+	small things and fail on the big things later. To allow this, it provides a test
+	environment for you to try shit.
+	1) Figure out how to open the Python interpreter via your command line
+	2) Once you've started up python, your command line should look something like:
+		Python 2.7.12 (default, Nov 19 2016, 06:48:10) 
+		[GCC 5.4.0 20160609] on linux2
+		Type "help", "copyright", "credits" or "license" for more information.
+		>>> 
+	or a different version number, which I recommend since you'll want 3.5 or higher later on.
+	Type in "import this" and hit enter.
+
+	Project 2, Intro to Git:
+	
+	The goal of this projects is to make you understand that if you fuck up your files, not 
+	all is lost as long as you have a backup, which is Git.
+	1) Create a git repo for learn_python
+	2) Every time you want to save (read: "push") your work, do the following:
+		add -A
+		commit -m "<comments here>"
+		git push
+	then give it your github username and password. 
+	
+	If you ever want to undo your git, just delete the .git file in your folder, or as 
+	computer people call it: "directory."
+
+
+Input & Error Interlude:
+
+	I didn't have anywhere this fits, but it needs to be said in case you don't know.
+	Input in python is done as follows:
+		
+		m = input("<what you want the line to read before the input>")
+	
+	Then if you want the variable to be anything other than a str, you manipulate it as such.
+	For example:
+		
+		num = int(input("How many apples are there?: "))
+		price = float(input("How much do all the apples cost together?: "))
+		print("average apple price: %f" % (price/num))
+
+	Often I will wrap an input loop in an error catcher:
+
+		while (True):
+			try:
+				num = int(input("How many apples are there?: "))
+				price = float(input("How much do all the apples cost together?: "))
+				print("average apple price: %f" % (price/num))
+			except KeyboardInterrupt:
+				break
+
+	What this does is continually ask for input until you do CTRL-C in the command line. You 
+	could also check input for "quit" in the while-statement, but that requires specific input
+	that I prefer not to worry about.
+
+	Also, one handy math trick that doesn't even really belong in the input interlude:
+		k = 4.5/2 = 2.25
+		q = 4.5//2 = 2
+		
+	k is type float
+	q is type int
+
+Learn Dicts:
+
+	Dictionaries are a basic data structure in Python and 
+	are more generally called in computer science "hash tables." They are used for making 
+	one-to-one (or one-to-many if you do something slightly clever) relationships between a 
+	"key" (also known as a "hash") and a "value." 
+
+	Hash tables are particularly useful because it lets you make essentially a list with 
+	access to any element in the list O(1) rather than O(n), which means its a lot faster, 
+	especially as the list gets really big. Professors always tell students that in computer 
+	science, every decision is a balancing act between speed and memory. If you can let your 
+	program run for a long time, it doesn't need as much memory. If you need your program to 
+	run quickly, you will be sacrificing memory. Hash tables are a good example of this. 
+	However, I believe a more useful interpretation is that if you need speed in your program 
+	and aren't sure where to start to make it run faster, begin first by thinking about how
+	you could implement a hash table instead of a list. Rather than understanding the warning 
+	of the impossibility of the coexistence between speed and memory, consider it as a guide
+	for how to improve one or the other.
+
+	Project 1, Simple Dict:
+	Write a python program that has a dictionary that hashes the following:
+
+		"zoo" 			-> a tuple of animals. Tuples are written as (1, 2, 3)
+		5 			-> "zoo"
+		7			-> "poop"
+		one of the animals	-> 5
+
+	Then for every key in the dictionary, 
+		print the key and its value
+		and if the value is a key in the dictionary,
+			print that key its value
+
+	No need for recursion. We'll do that later.
+
+	Project 2, Hashable Types:
+	Use the previous project and change "zoo" to hash to a **list** of animals instead of 
+	a tuple. Run that.
+
+	You should get an error that looks something like:
+		Traceback (most recent call last):
+  		File "<stdin>", line 1, in <module>
+		TypeError: unhashable type: 'list'
+	
+	In python, lists are mutable objects. That means you can change what's in it without 
+	making a new list under the hood. This is bad for hashing. It's good for a lot of other 
+	stuff, but directories don't take mutable types as hashes. If you want to hash a
+	combination of values, use a tuple, which is immutable. Open up the python interpreter 
+	and make a tuple of two values. Try to change the second one and you should get an error:
+	
+	>> k = (2, 2)
+	>> k[0] = 1
+	Traceback (most recent call last):
+  	File "<stdin>", line 1, in <module>
+	TypeError: 'tuple' object does not support item assignment	
+
+	Side note: In Python, a lot of types that are their own thing in other languages are 
+	considered lists, which you'll see later. In Lua, a different scripting language, a lot 
+	of types that are their own thing in other languages are considered hash tables.
+	Lists in Lua are just hash tables where the keys are ascending integers. Classes and 
+	functions are hash tables too. Pretty much everything except integers and some other basic 
+	stuff are hash tables in Lua. If you're interested in languages where everything is data 
+	formatted the same way and the language is interpretted, you should check out Lisp, which 
+	is argued to be the greatest programming language ever, for good reason, but it's near 
+	impossible to learn.
+
+
+Learn Funcs:
+
+	Because Python is an interpreted language, you technically don't need functions for a 
+	python script to run. You could open a file my_file.py, type 2+2 and run it on the 
+	command line and it will run just fine (but it won't print). Many other languages don't do 
+	this. C, C++ and Java require a main method, then they compile and run an executable. It's
+	actually pretty cumbersome to make a python executable. 
+
+	Anyway, you can make a main method in python. And for any program over 20 lines of code,
+	you probably should. But it doesn't need to be called anything special (although a lot of
+	people will call it main()):
+
+	def main():
+		print("poop")
+
+	if __name__ == "__main__":
+		main()
+
+	That's the beginning of a pretty solid python program right there.
+
+
+	Functions in a python are objects, which is also pretty different from other languages. 
+	For example, in the above if-statement, you could write:
+
+	if __name__ == "__main__":
+		poop = main
+		poop()
+
+	and it will still run just as nicely. 
+
+	Functions in Python can return multiple values by returning two or more values in a 
+	list or tuple. This is also fairly unique to Python in respect to other common languages 
+	but not in respect to other scripting languages like Lua.
+
+	Parameters to functions in Python are very powerful and sometimes, I feel, overlooked. 
+	First and foremost, no type is needed or really wanted. A python programmer writes methods 
+	that work no matter what the type, often by redefining their meaning for each type. For 
+	example, print() will print anything from string to number, but if you make a class object 
+	Book, the default behavior of print is to print the memory location of the object. So,
+	if you want your Book to print relevant information that you would prefer, then in your 
+	Book class, you write a print function:
+
+		def __print__(self):
+			print(self.title)
+
+	self is a variable in an object's namespace that refers to itself. Basically, if you want
+	to have two books, each with a different title, but both with a print function that 
+	prints its own title, then you need to refer to self. I'm not covering OOP and classes
+	because it's not useful to scripting simple and quick programs. But if you wanted to make 
+	a big program like a game or a multithreaded GUI and network client-server thing, then 
+	you'd definitely use classes.
+
+	Back to parameters. There are two types of parameters in python:
+	
+		def f(a, b="poop"):
+			print(a)
+			print(b)
+
+	The first is the simple kind called an "argument" or "arg". The second type is not so 
+	simple and is called a "keyword argument" or "kwarg". What happens with the first is 
+	that if you don't provide them when you call the function:
+		>> def f(a):
+		...	print(a)
+		...
+		>> f()
+		Traceback (most recent call last):
+  		File "<stdin>", line 1, in <module>
+		TypeError: f() takes exactly 1 argument (0 given)
+	You get an error that tells you that you done goofed.
+
+	With the second type:
+		>> def f(b="poop"):
+		...	print(b)
+		...
+		>>> f()
+		poop
+		>>> f("poop2")
+		poop2
+		>>> f(b="poop2")
+		poop2
+		>>> 
+	What happens is python says f.b = "poop" whether you say so or not. Then, if you 
+	provide a different value for b, it sets it to that instead. But you can't set it 
+	more than once:
+
+		>>> f(b="poop2", b="poop3")
+  		File "<stdin>", line 1
+		SyntaxError: keyword argument repeated
+
+	You can't do parameters out of order, actually:
+		>>> f("poopa", b="poopb")
+		poopa
+		poopb
+		>>> f(b="poopb", "poopa")
+  		File "<stdin>", line 1
+		SyntaxError: non-keyword arg after keyword arg
+
+	All arguments must be in order and before any keyword arguments.
+	
+		def f(a, b, c, d="poopd", e="poope")
+
+		legal orders:
+
+		f(a, b, c)
+		f(a, b, c, d="")
+		f(a, b, c, e="")
+		f(a, b, c, d="", e="")
+		f(a, b, c, e="", d="")
+		f(a, b, c, d, e)
+
+	You can also mix up how you assign the kwargs:
+
+		>>> def f(a, b, c, d="poopd", e="poope", f="poopf"):
+		...     pass
+		... 
+		>>> f(1, 2, 3, 4, f=6, e=5)
+		>>>
+
+	There are actually two other ways to get parameters in a function. Specifically,
+	this is used for an unknown number of parameters (like in a command line command).
+
+		>>> def f(*args, **kwargs):
+		...     for i in args:
+		...             print(i)
+		...     for i in kwargs:
+		...             print(i)
+		...     if "poop" in kwargs:
+		...             print("poop is " + str(kwargs["poop"]))
+		... 
+		>>> f(2, 3, 7, 1, k=6, poop=8)
+		2
+		3
+		7
+		1
+		k
+		poop
+		poop is 8
+		>>> 
+
+	You can also pass in lists to functions as single arguments by "unpacking" the list 
+	when you call the function.
+
+		>>> def f(a, b, c):
+		...     print("%d, %d, %d" % (a, b, c))
+		... 
+		>>> k = [2, 1, 5]
+		>>> f(*k)
+		2, 1, 5
+		>>> f(k)
+		Traceback (most recent call last):
+		  File "<stdin>", line 1, in <module>
+		TypeError: f() takes exactly 3 arguments (1 given)
+		>>> 
+
+	Using the *args syntax covers both situations, but differently.
+
+		>>> def f(*args):
+		...     for i in args:
+		...             print(i)
+		... 
+		>>> f(k)
+		[2, 1, 5]
+		>>> f(*k)
+		2
+		1
+		5
+		>>> 
+
+	Lastly, when talking about functions, you have to mention closure because it will come 
+	up if you work on big enough projects and if you haven't heard about it, then it's hard
+	to search for help because you can't describe it properly to google. Let's start with 
+	an example:
+
+		>>> def f_maker(a):
+		...     def f():
+		...             print("poop " + str(a))
+		...     return f
+		... 
+		>>> k = f_maker("k")
+		>>> k()
+		poop k
+		>>> 
+
+	This is useful when you have functions that take functions as parameters, but those 
+	functions can't have any parameters themselves. If the functions need information that 
+	they would normally get from parameters, you use a closure. For example:
+
+		>>> def calculate(func):
+		...     print(func())
+		... 
+		>>> def make_adder(a, b):
+		...     def add():
+		...             return a+b
+		...     return add
+		... 
+		>>> calculate(make_adder(2, 5))
+		7
+		>>> 
+
+	Project 1, Complicated Calculator:
+
+	Write a python program that has the following functions:
+		1) a calculate method that takes parameters (a, b, func) and 
+		calls func(a, b)
+		2) an add method that takes (a, b) and returns (a + b)
+		3) a multiply method that takes (a, b) and return (a * b)
+		4) a main method that has an infinite input loop that 
+		asks for two numbers and a string "add" or "multiply".
+		Then it calls calculate(a, b, func) depending on the string add or multiply
+
+	The following inputs (in order!) should yield their respective outputs:
+	2 2 add 	-> 	4
+	2 6 mult	->	12
+	poop 2 add	-> 	'poop2'
+	poop 2 mult	-> 	'pooppoop'
+
+	This project is almost completed in the above example, but it needs multiplication 
+	functionality and also needs to accept strings with ints. Figure it out. You also 
+	definitely don't need to use closure if you don't want.
+
+	Project 2, Timing the Calculator:
+	
+	Write a python program that uses closure to wrap functions in logic that times them 
+	using time.time() and returns a tuple of whatever the function returned and the time it
+	took to run.
+
+	Look here for help: 
+	https://stackoverflow.com/questions/5478351/python-time-measure-function
+
+	Go back to the previous project and import Project 2 into that project. Then, use 
+	the timing wrapper inside the calculate method so the input/outputs are as follows:
+	2 2 add 	-> 	[4, <time>]
+	2 6 mult	->	[12, <time>]
+	poop 2 add	-> 	['poop2', <time>]
+	poop 2 mult	-> 	['pooppoop', <time>]
+
+	Or with tuples instead of lists if you prefer. 
+
+Learn Lists:
+	List comprehension is an extremely useful tool almost exclusive to Python. It allows 
+	you to make lists in a inline very quickly. But first we should learn slices, which 
+	are also very useful and somewhat similar.
+
+	>>> k = [1, 8, 3, 7, 4]
+	>>> print(k[1:])
+	[8, 3, 7, 4]
+	>>> print(k[:-1])
+	[1, 8, 3, 7]
+	>>> print(k[::2])
+	[1, 3, 4]
+	>>> 
+
+	A list slice is like accessing a list using square brackets, but you use colons to denote
+	the first element, the last element, and optionally the step size. In the first example
+	k[1:], you get the list k, but start at element 1, which is the second element since lists
+	are indexed from zero. In the second example, you get the list k, but ending at the element
+	before the last element. You can index negative numbers in python to specify how far from 
+	the end of a list you want.
+
+	>>> k[-1]
+	4
+	>>> k[-2]
+	7
+	>>> 
+
+	In the last slice example, you get all of the list k, but with step size 2, so you 
+	skip every second element. Essentially what a slice does is:
+
+	def slice(list, start, end, step):
+		new_list = []
+		for i in range(start, len(list)-end):
+			new_list.append(list[i])
+			i = i + step
+		return new_list
+
+	One really convenient thing list slicing does is make copies of lists. Normally, if you 
+	try to assign another variable as a copy of a list, since lists are mutable, changing 
+	an element of one changes the elements of the other, which can be very problematic.
+
+	>>> k = [1, 8, 3, 7, 4]
+	>>> q = k
+	>>> k[0]
+	1
+	>>> q[0] = 10
+	>>> k[0]
+	10
+	>>> 
+
+	But with list slicing, you can make actual copies:
+
+	>>> k
+	[10, 8, 3, 7, 4]
+	>>> q = k[:]
+	>>> q[0] = 2
+	>>> k
+	[10, 8, 3, 7, 4]
+	>>> 
+
+	List comprehension is a little more complex. It doesn't edit lists so much as it 
+	creates new ones using others.
+
+	>>> k
+	[1, 8, 3, 7, 4]
+	>>> q = [i for i in k if i < 5]
+	>>> q
+	[1, 3, 4]
+	>>> 
+
+	The format is [function(<varname>) for <varname> in <list> if <condition>] and the 
+	if-condition is optional.
+
+	>>> f(*[i*i for i in range(10)])
+	0
+	1
+	4
+	9
+	16
+	25
+	36
+	49
+	64
+	81
+	>>> 
+
+	>>> f(*[i**2 for i in range(len([i for i in range(100) if i%2==0]))])
+	0
+	1
+	4
+	9
+	16
+	25
+	36
+	49
+	64
+	81
+	100
+	121
+	...
+
+	squares all values from 0 to the number of values between 0 and 99 that are even
+
+	No Project. You'll use it enough in whatever you do in Python, probably.
+
+
+Learn Files:
+	
+	To open a text file in python and read its contents, I recommend using the following:
+
+		f = open("<path_to_file>/<file_name>", 'r')
+		for line in f:
+			spline = line.replace("\n","").split("<split_delimiter>")
+		<...>
+		f.close()
+
+	In this code, f is the file object (which needs to be closed later on!), line is 
+	the line of text being read, from top to bottom. Basically line accumulates all text in 
+	a single string until a newline character is reached ("\n"). This is either at the end of 
+	a line of text in the text file, or literally written in the text file as "\n". The string 
+	encapsulated by line will have "\n" at the end of it.
+
+	To write to a text file in python (or overwrite if the file already exists) I recommend
+	doing the following:
+
+		to_output = []
+		<...>
+		to_output.append(line_to_output)
+		<...>
+		f = open("<path_to_file>/<file_name>", 'w')
+		for line in to_output:
+			f.write(line)
+		<...>
+		f.close()
+
+	It's often more useful to separate the accumulation of lines to write and the actual 
+	writing of the lines to file than having the two intertwined in your code. There are 
+	very easy ways to append text to a file rather than overwriting it, but I don't remember
+	it off the top of my head and you won't need it for these projects. You can also open a 
+	file to both read and write using 'r+' in the open() command.
+
+	Project 1, Hashed Sentences:
+
+	Write a python script that reads in a text file and creates a dictionary hashed by the 
+	letters of the alphabet (case-agnostic) and returns a list of all the sentences in the 
+	text file that begin with that letter. A sentence in for the purposes of this project is 
+	a string such that two characters before it in the text file is a period and its 
+	last character is a period. Create an input loop where the user can type a letter and 
+	the command line will print each sentence. For example:
+
+	>> input: h
+	He was walking down the street.
+	Her poop's fragrance wafted over from the bush.
+	Hindered by the stench, The Boy puked his breakfast.
+	>> input: 
+
+	Be mindful of sentences that stretch over more than one line of text in the text file.
+
+	Project 2, Text Reversal:
+
+	Write a python script that reads in a text file and writes a new text file such that 
+	all the letters in the new text file are reversed from the original text file, but all 
+	text-form information such as non-alpha characters like punctuation, numbers and 
+	spaces remain in their original position as well as hyphens and capitalization. 
+	For example:
+
+	The butcher-boy flayed the calf; the smell was poopy.
+		Father was angry, but dinner was good.
+
+	Doo gsawren-nid tubyrg nas awre; hta fypoo psa wllem.
+		Sehtfl ace htdey, alf yobreh ctu beht.
+
+	The script should either ask for input of the text file's location/name, or accept it 
+	as a command line argument:
+
+	$ python text-reverser.py ./poopy.txt
+	$
+
+	$ python text-reverser.py
+	file name: ./poopy.txt
+	$
+
+
+
+

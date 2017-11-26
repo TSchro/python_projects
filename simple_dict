@@ -1,0 +1,11 @@
+dict = {}
+
+dict["zoo"] = ("ape", "bird", "cat")
+dict[5] = "zoo"
+dict[7] = "poop"
+dict["ape"] = 5
+
+print(dict["zoo"])
+print(dict[5])
+print(dict[7])
+print(dict["ape"])
