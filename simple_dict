@@ -1,11 +1,12 @@
-dict = {}
+my_ass = {}
 
-dict["zoo"] = ("ape", "bird", "cat")
-dict[5] = "zoo"
-dict[7] = "poop"
-dict["ape"] = 5
+my_ass["zoo"] = ("ape", "bird", "cat")
+my_ass[5] = "zoo"
+my_ass[7] = "poop"
+my_ass["ape"] = 5
 
-print(dict["zoo"])
-print(dict[5])
-print(dict[7])
-print(dict["ape"])
+for pain in my_ass:
+	if my_ass[pain] in my_ass:
+		print(my_ass[pain], my_ass[my_ass[pain]])
+	else:
+		print(pain, my_ass[pain])
